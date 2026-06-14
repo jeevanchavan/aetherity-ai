@@ -9,9 +9,14 @@ export const useAuth = ()=>{
     const handleRegister = async ({username,email,password})=>{
         try {
             dispatch(setLoading(true))
-            const data = await register({username,email,password}) 
+            const data = await register({username,email,password})
+            dispatch(setUser(data.user)); 
+
+            return true;
         } catch (error) {
             dispatch(setError(error.response?.data?.message || "Registration failed"))
+
+            return false;
         } finally{
             dispatch(setLoading(false))
         }
@@ -38,16 +43,43 @@ export const useAuth = ()=>{
             dispatch(setLoading(true))
             const data = await getMe();
             dispatch(setUser(data.user))
+
+            return true
+
         } catch (error) {
             dispatch(setError(error.response?.data?.message || "Failed to fetch user data"))
+
+            return false
         }finally{
             dispatch(setLoading(false))
         }
     }
 
+    const handleVerifyEmail = async (token) => {
+        try {
+            dispatch(setLoading(true));
+
+            await verifyEmail(token);
+
+            return true;
+        } catch (error) {
+            dispatch(
+                setError(
+                    error.response?.data?.message ||
+                    "Verification failed"
+                )
+            );
+
+            return false;
+        } finally {
+            dispatch(setLoading(false));
+        }
+    };
+
     return {
         handleRegister,
         handleLogin,
-        handleGetMe
+        handleGetMe,
+        handleVerifyEmail
     }
 }

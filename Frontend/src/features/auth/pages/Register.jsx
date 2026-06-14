@@ -1,13 +1,23 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router'
+import { Link, Navigate, useNavigate } from 'react-router'
 import AuthLayout from '../../../components/auth/AuthLayout'
+import { useSelector } from 'react-redux'
+import { useAuth } from '../hooks/useAuth'
 
 const Register = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const submitForm = (event) => {
+  const user = useSelector(state => state.auth.user);
+  const loading = useSelector(state=> state.auth.loading)
+  const error = useSelector(state=> state.auth.error)
+
+  const {handleRegister} = useAuth();
+
+  const navigate = useNavigate()
+
+  const submitForm = async (event) => {
     event.preventDefault()
 
     const payload = {
@@ -15,6 +25,15 @@ const Register = () => {
       email,
       password,
     }
+    const success = await handleRegister(payload)
+
+    if(success){
+      navigate('/login')
+    }
+  }
+
+  if(!loading && user){
+    return <Navigate to="/" replace />
   }
 
   return (

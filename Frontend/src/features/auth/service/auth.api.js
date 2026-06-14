@@ -22,3 +22,11 @@ export const getMe = async ()=>{
 
     return response.data;
 }
+
+export const verifyEmail = async (token) => {
+    const response = await api.get(
+        `/api/auth/verify-email?token=${token}`
+    );
+
+    return response.data;
+};
