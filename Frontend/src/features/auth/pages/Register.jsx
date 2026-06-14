@@ -28,7 +28,11 @@ const Register = () => {
     const success = await handleRegister(payload)
 
     if(success){
-      navigate('/login')
+      navigate('/check-email',{
+        state:{
+          email: success.email
+        }
+      })
     }
   }
 
@@ -103,7 +107,7 @@ const Register = () => {
           />
         </div>
 
-        <button type="submit" className="btn-primary btn-auth w-full">
+        <button type="submit" className="btn-primary cursor-pointer btn-auth w-full">
           Create account
         </button>
       </form>

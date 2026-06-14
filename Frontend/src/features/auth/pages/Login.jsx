@@ -92,7 +92,7 @@ const Login = () => {
                 <button
                     type="submit"
                     disabled={loading}
-                    className="btn-primary btn-auth w-full"
+                    className="btn-primary cursor-pointer btn-auth w-full"
                 >
                     {loading ? (
                         <>

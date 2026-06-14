@@ -1,5 +1,5 @@
 import express from 'express'
-import { getMe, loginUser, registerUser, verifyEmail } from '../controllers/auth.controller.js'
+import { getMe, loginUser, logoutUser, registerUser, verifyEmail } from '../controllers/auth.controller.js'
 import { loginValidator, registerValidator } from '../validators/auth.validator.js'
 import { authUser } from '../middlewares/auth.middleware.js'
 
@@ -38,5 +38,7 @@ authRouter.get("/get-me",authUser,getMe)
  * @query { token }
  */
 authRouter.get("/verify-email",verifyEmail)
+
+authRouter.post("/logout",logoutUser);
 
 export default authRouter

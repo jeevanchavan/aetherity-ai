@@ -9,6 +9,7 @@ import AetherityLogo from '../../../components/ui/AetherityLogo'
 import { setChats, setCurrentChatId } from '../chatSlice'
 import { deleteChat } from '../service/chat.api'
 import { setUser } from '../../auth/auth.slice'
+import { useAuth } from '../../auth/hooks/useAuth'
 
 const MenuIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -323,7 +324,7 @@ const UserProfileSection = ({ user, onLogout }) => {
               setOpen(false)
               onLogout()
             }}
-            className="flex w-full items-center gap-2.5 px-3 py-2.5 text-sm text-app-secondary transition-colors hover:bg-surface-hover hover:text-app"
+            className="flex cursor-pointer w-full items-center gap-2.5 px-3 py-2.5 text-sm text-app-secondary transition-colors hover:bg-surface-hover hover:text-app"
           >
             <LogOutIcon />
             Log out
@@ -578,10 +579,20 @@ const Dashboard = () => {
     }
   }
 
-  const handleLogout = () => {
-    dispatch(setUser(null))
-    navigate('/login')
-  }
+  const { handleLogout: logout } = useAuth();
+
+  const handleLogout = async () => {
+      const success = await logout();
+
+      if (success) {
+          navigate('/login');
+      }
+  };
+
+  // const handleLogout = () => {
+  //   dispatch(setUser(null))
+  //   navigate('/login')
+  // }
 
   const handleSuggestionClick = (prompt) => {
     setChatInput(prompt)
