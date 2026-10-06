@@ -3,6 +3,8 @@
 Aetherity is a modern AI-powered search assistant designed to help users discover information through natural conversations. Inspired by the usability of modern AI products, Aetherity combines intelligent responses with a clean, responsive interface built for productivity.
 
 ---
+Live Link :
+https://aetherity-ai.onrender.com/
 
 ## ✨ Features
 
@@ -99,9 +101,7 @@ Aetherity is a modern AI-powered search assistant designed to help users discove
 
 ## 🚀 Live Demo
 
-🌐 **Frontend:** [Add Frontend URL]
-
-⚙️ **Backend API:** [Add Backend URL]
+🌐 https://aetherity-ai.onrender.com/
 
 ---
 
