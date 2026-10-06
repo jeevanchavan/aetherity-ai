@@ -18,8 +18,11 @@ app.use(cookieParser())
 
 app.use(morgan("dev"))
 app.use(cors({
-    origin:"process.env.APP_URL",
-    credentials:true
+    origin: (origin, callback) => {
+        // Dynamically allow requesting origin with credentials
+        callback(null, true);
+    },
+    credentials: true
 }))
 
 

@@ -9,10 +9,12 @@ export const useAuth = ()=>{
     const handleRegister = async ({username,email,password})=>{
         try {
             dispatch(setLoading(true))
-            await register({username,email,password})
+            dispatch(setError(null))
+            const data = await register({username,email,password})
 
             return {
                 success : true,
+                emailSent: data?.emailSent ?? true,
                 email
             }
         } catch (error) {
@@ -29,6 +31,7 @@ export const useAuth = ()=>{
     const handleLogin = async ({email,password}) =>{
         try {
             dispatch(setLoading(true))
+            dispatch(setError(null))
             const data = await login({email,password})
             dispatch(setUser(data.user))
 
@@ -51,8 +54,8 @@ export const useAuth = ()=>{
             return true
 
         } catch (error) {
-            dispatch(setError(error.response?.data?.message || "Failed to fetch user data"))
-
+            // When user has no session, clear user without showing a loud error banner
+            dispatch(setUser(null))
             return false
         }finally{
             dispatch(setLoading(false))
@@ -86,7 +89,7 @@ export const useAuth = ()=>{
             await logout()
 
             dispatch(setUser(null))
-            dispatch(etError(null))
+            dispatch(setError(null))
             
             return true
         } catch (error) {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router'
 import AuthLayout from '../../../components/auth/AuthLayout'
+import AuthAlert from '../../../components/auth/AuthAlert'
 import { useSelector } from 'react-redux'
 import { useAuth } from '../hooks/useAuth'
 
@@ -25,14 +26,18 @@ const Register = () => {
       email,
       password,
     }
-    const success = await handleRegister(payload)
+    const res = await handleRegister(payload)
 
-    if(success){
-      navigate('/check-email',{
-        state:{
-          email: success.email
-        }
-      })
+    if (res && res.success) {
+      if (res.emailSent) {
+        navigate('/check-email', {
+          state: {
+            email: res.email
+          }
+        })
+      } else {
+        navigate('/')
+      }
     }
   }
 
@@ -57,6 +62,8 @@ const Register = () => {
         <h2 className="text-xl font-semibold tracking-tight text-app">Register</h2>
         <p className="mt-1.5 text-sm text-app-secondary">Fill in your details to get started.</p>
       </div>
+
+      <AuthAlert message={error} />
 
       <form onSubmit={submitForm} className="auth-form space-y-5">
         <div>
